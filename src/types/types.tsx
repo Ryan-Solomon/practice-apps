@@ -7,12 +7,11 @@ export type CartItem = {
 };
 
 export type State = {
-  totalPrice: number;
-  totalItems: number;
   cartItems: CartItem[];
+  shoppingCartCount: 0;
 };
 
 export type Action = {
   type: string;
   payload?: number;
-};
+} | null;

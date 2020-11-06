@@ -86,3 +86,20 @@ html {
   transform: scale(1.1);
   cursor: pointer;
 }
+
+.cart-item-container {
+  display: flex;
+  background-color: #ddd;
+  width: 30rem;
+  padding: 1rem;
+}
+
+.cart-item-img img {
+  width: 5rem;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
