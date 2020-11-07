@@ -1,3 +1,5 @@
+// Watch homies video on TS to get your context right here
+
 import React, {
   createContext,
   FC,
@@ -6,7 +8,13 @@ import React, {
   useState,
 } from 'react';
 
-const AppContext = createContext({});
+type AppContextType = {
+  cocktails: State;
+  searchTerm: string;
+  setSearchTerm: () => void;
+};
+
+const AppContext = createContext<AppContextType | undefined>(undefined);
 
 type Cocktail = {
   idDrink: string;
@@ -19,7 +27,7 @@ type State = {
 };
 
 const AppProvider: FC = ({ children }) => {
-  const [cocktails, setCocktails] = useState<State | []>([]);
+  const [cocktails, setCocktails] = useState<Cocktail[] | []>([]);
   const [searchTerm, setSearchTerm] = useState('a');
 
   useEffect(() => {
@@ -27,9 +35,10 @@ const AppProvider: FC = ({ children }) => {
       const res = await fetch(
         `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchTerm}`
       );
-      const data = (await res.json()) as State;
-      setCocktails(data);
+      const { drinks } = (await res.json()) as State;
+      setCocktails(drinks);
     };
+    fetchCocktails();
   }, [searchTerm]);
 
   return (
