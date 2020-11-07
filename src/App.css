@@ -42,8 +42,10 @@
 
 .search-container {
   display: grid;
-  place-items: center;
+  grid-template-rows: auto auto 1fr;
   justify-content: center;
+  align-items: center;
+  text-align: center;
   background-color: rgba(51, 51, 51, 0.248);
   height: 30rem;
   margin: 2rem;
@@ -54,6 +56,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin: 2rem;
 }
 
 .search-bar-container h3 {
