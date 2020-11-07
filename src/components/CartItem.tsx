@@ -8,7 +8,7 @@ type Props = {
 };
 
 export default function CartItem({ item }: Props) {
-  const { title, price, img, amount } = item;
+  const { title, price, img } = item;
   const { removeProduct } = useAppContext();
 
   return (
