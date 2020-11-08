@@ -2,8 +2,14 @@ import React from 'react';
 import './App.css';
 import Nav from './components/Nav';
 import SearchBar from './components/SearchBar';
+import CocktailList from './components/CocktailList';
+import { useAppContext } from './context/appContext';
 
 const App = () => {
+  const { error } = useAppContext()!;
+
+  if (error) return <h1>Shit</h1>;
+
   return (
     <div className='container'>
       <nav className='nav-bar'>
@@ -17,7 +23,7 @@ const App = () => {
         <h3>Cocktails Title</h3>
         <main className='cocktail-container'>
           <div className='cocktail-item'>
-            <h4>Cocktail Items</h4>
+            <CocktailList />
           </div>
         </main>
       </div>

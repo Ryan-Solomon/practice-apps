@@ -71,3 +71,12 @@
   background: rgb(44, 44, 44);
   color: whitesmoke;
 }
+
+.cocktail-card {
+  display: grid;
+  grid-template-columns: auto;
+}
+
+.cocktail-card img {
+  width: 10rem;
+}

@@ -3,16 +3,16 @@ import { useState } from 'react';
 import { useAppContext } from '../context/appContext';
 
 const SearchBar = () => {
-  const { searchTerm, setSearchTerm } = useAppContext();
+  const { searchInput, setSearchInput } = useAppContext()!;
 
   return (
     <div className='search-bar-container'>
       <h3>Search Your Favorite Cocktail!</h3>
       <input
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={(e) => setSearchInput(e.target.value)}
         type='text'
         placeholder='Search a cocktail'
-        value={searchTerm}
+        // value={searchInput}
       />
     </div>
   );

@@ -1,20 +1,5 @@
-// Watch homies video on TS to get your context right here
-
-import React, {
-  createContext,
-  FC,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
-
-type AppContextType = {
-  cocktails: State;
-  searchTerm: string;
-  setSearchTerm: () => void;
-};
-
-const AppContext = createContext<AppContextType | undefined>(undefined);
+import { createContext, FC, useState, useEffect, useContext } from 'react';
+import React from 'react';
 
 type Cocktail = {
   idDrink: string;
@@ -22,31 +7,52 @@ type Cocktail = {
   strDrinkThumb: string;
 };
 
-type State = {
-  drinks: Cocktail[];
+type ContextState = {
+  cocktails: Cocktail[];
+  setSearchInput: (term: string) => void;
+  searchInput: string;
+  error: boolean;
 };
 
-const AppProvider: FC = ({ children }) => {
-  const [cocktails, setCocktails] = useState<Cocktail[] | []>([]);
-  const [searchTerm, setSearchTerm] = useState('a');
+const AppContext = createContext<ContextState | null>(null);
+
+export const ContextProvider: FC<React.ReactNode> = ({ children }) => {
+  const [searchInput, setSearchInput] = useState('');
+  const [cocktails, setCocktails] = useState([]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchCocktails = async () => {
-      const res = await fetch(
-        `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchTerm}`
-      );
-      const { drinks } = (await res.json()) as State;
-      setCocktails(drinks);
+      try {
+        const res = await fetch(
+          `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${
+            searchInput || 'a'
+          }`
+        );
+        const { drinks } = await res.json();
+        if (drinks) {
+          setCocktails(drinks);
+          setError(false);
+        } else {
+          setError(true);
+        }
+      } catch (err) {
+        console.error(err);
+        setError(true);
+      }
     };
     fetchCocktails();
-  }, [searchTerm]);
+  }, [searchInput]);
+
+  console.log(cocktails);
 
   return (
     <AppContext.Provider
       value={{
+        setSearchInput,
         cocktails,
-        searchTerm,
-        setSearchTerm,
+        searchInput,
+        error,
       }}
     >
       {children}
@@ -54,8 +60,6 @@ const AppProvider: FC = ({ children }) => {
   );
 };
 
-const useAppContext = () => {
+export const useAppContext = () => {
   return useContext(AppContext);
 };
-
-export { AppProvider, useAppContext };
